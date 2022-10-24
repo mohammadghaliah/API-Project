@@ -1,0 +1,13 @@
+using Microsoft.Extensions.Configuration;
+using MohaTemplate.Data.EF;
+using MohaTemplate.Data.Oracle.Common;
+
+namespace MohaTemplate.Data.Oracle
+{
+  public class OracleDbContext : EFDbContext
+    {
+        public OracleDbContext(IConfiguration configuration) : base(configuration, ConnectionStringProvider.GetOptions(configuration))
+        {
+        }
+    }
+}

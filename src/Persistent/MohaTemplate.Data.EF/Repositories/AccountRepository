@@ -1,0 +1,37 @@
+using Dapper;
+using MohaTemplate.Core;
+using MohaTemplate.Core.Entities;
+using MohaTemplate.Core.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MohaTemplate.Data.EF.Repositories
+{
+  public class AccountRepository: IAccountRepository
+    {
+        protected readonly EFDbContext Context;
+
+        public AccountRepository(IDbContext context)
+        {
+            Context = context as EFDbContext;
+
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
+        }
+
+public  void Dispose()
+        {
+            Context.Dispose();
+        }
+
+
+        public async Task<List<Account>> GetAll()
+        {
+            var dbAccounts = Context.Account;
+
+            List<Account> accounts = dbAccounts.ToList();
+
+            return accounts;
+        }
+    }
+}

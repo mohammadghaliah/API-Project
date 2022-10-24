@@ -1,0 +1,178 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using MohaTemplate.Core;
+using System;
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using MohaTemplate.Data.EF.Configurations;
+using MohaTemplate.Core.Entities;
+
+namespace MohaTemplate.Data.EF
+{
+  public partial class EFDbContext : DbContext, IDbContext, IDisposable
+    {
+      public EFDbContext(IConfiguration configuration, DbContextOptions options) : base(options)
+        {
+        }
+
+        public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
+        {
+            var dbContextTransaction = Database.BeginTransaction(isolationLevel);
+
+            return (Transaction = dbContextTransaction.GetDbTransaction());
+        }
+
+        public IDbTransaction BeginTransaction()
+        {
+            var dbContextTransaction = Database.BeginTransaction();
+
+            return (Transaction = dbContextTransaction.GetDbTransaction());
+        }
+
+            ~EFDbContext()
+        {
+            Dispose(false);
+        }
+
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+             protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (Transaction != null)
+                {
+                    Transaction.Dispose();
+                    Transaction = null;
+                }
+            }
+
+            base.Dispose();
+        }
+
+        public IDbConnection Connection { get => Database.GetDbConnection(); }
+
+        public DbTransaction Transaction { get; private set; }
+
+        public void Save()
+        {
+            SaveChanges();
+        }
+
+                // this to add default columns values.
+
+public override int SaveChanges()
+        {
+            //var entries = ChangeTracker
+            //    .Entries()
+            //    .Where(e => e.Entity is EntityBase && (
+            //            e.State == EntityState.Added
+            //            || e.State == EntityState.Modified));
+
+            //foreach (var entityEntry in entries)
+            //{
+            //    if (entityEntry.State == EntityState.Added)
+            //    {
+            //        ((EntityBase)entityEntry.Entity).CreateStamp = DateTime.Now;
+            //        ((EntityBase)entityEntry.Entity).IsDeleted = false;
+            //        ((EntityBase)entityEntry.Entity).IsActive = true;
+            //    }
+
+            //    if (entityEntry.State == EntityState.Modified)
+            //    {
+            //        ((EntityBase)entityEntry.Entity).UpdateStamp = DateTime.Now;
+            //    }
+            //}
+
+            return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(SaveChanges());
+        }
+
+       protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new AccountConfiguration());
+
+            //    modelBuilder.ApplyConfiguration(new AccountAppConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AccountConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppManifestConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppUserGroupConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppWhiteLabelConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AssignedCustomUserPermissionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AssignedCustomUserRoleConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AttachmentConfiguration());
+            //    modelBuilder.ApplyConfiguration(new BlackListConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ExcludedUserPermissionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ExcludedUserRoleConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ExternalProviderUserConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ExtraClaimMappingConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SamlAttributesMappingConfiguration());
+            //    modelBuilder.ApplyConfiguration(new GroupConfiguration());
+            //    modelBuilder.ApplyConfiguration(new GroupRoleConfiguration());
+            //    modelBuilder.ApplyConfiguration(new IdentityProviderConfiguration());
+            //    modelBuilder.ApplyConfiguration(new LookupConfiguration());
+            //    modelBuilder.ApplyConfiguration(new LookupValueConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PortalConfiguration());
+            //    modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //    modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SystemMenuConfiguration());
+            //    modelBuilder.ApplyConfiguration(new TranslationConfiguration());
+            //    modelBuilder.ApplyConfiguration(new UserAuthCodeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new FailedLoginRetriesMappingConfiguration());
+            //    modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PaymentConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PaymentBatchConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PaymentDetailsConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ServiceConfigConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+            //    modelBuilder.ApplyConfiguration(new FeeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ServiceFeeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SettlementConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SettlementLogConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SettlementDetailConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PlanConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PlanNoteConfiguration());
+            //    modelBuilder.ApplyConfiguration(new PlanFeatureConfiguration());
+            //    modelBuilder.ApplyConfiguration(new FeaturePermissionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new RefundConfigurations());
+            //    modelBuilder.ApplyConfiguration(new DefaultGroupConfigration());
+            //    modelBuilder.ApplyConfiguration(new ProductVersionsConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ProductVersionDetailsConfiguration());
+            //    modelBuilder.ApplyConfiguration(new UserOldPasswordConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ApiSecretKeyConfigration());
+            //    modelBuilder.ApplyConfiguration(new PaymentConfigsConfigration());
+            //    modelBuilder.ApplyConfiguration(new SubscriptionConfiguration());
+            //    modelBuilder.ApplyConfiguration(new SubscriptionsDetailConfiguration());
+            //    modelBuilder.ApplyConfiguration(new MultiFactorAuthConfiguration());
+            //    modelBuilder.ApplyConfiguration(new DirectoriesConfigration());
+            //    modelBuilder.ApplyConfiguration(new DirectoryProfileAttributesConfiguration());
+            //    modelBuilder.ApplyConfiguration(new UserDetailsConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ApiResourceConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ScopeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ApiResourceScopeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new AppScopeConfiguration());
+            //    modelBuilder.ApplyConfiguration(new IdentityProviderProfileAttributesConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ProfileAttributesConfiguration());
+            //    modelBuilder.ApplyConfiguration(new ProfileAttributeMappingConfiguration());
+            //    modelBuilder.ApplyConfiguration(new MFAUserPreferencesConfigration());
+        }
+
+        public virtual DbSet<Account> Account { get; set; }
+
+            }
+}

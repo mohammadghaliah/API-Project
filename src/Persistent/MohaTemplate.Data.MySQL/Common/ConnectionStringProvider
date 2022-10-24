@@ -1,0 +1,52 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
+namespace MohaTemplate.Data.MySQL.Common
+{
+  public class ConnectionStringProvider
+    {
+
+      private static string _connectionString;
+      private static readonly object ConnectionStringLock = new object();
+      private readonly IConfiguration Configuration;
+
+      public ConnectionStringProvider(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public string ConnectionString
+        {
+            get
+            {
+                if (_connectionString == null)
+                {
+                    lock (ConnectionStringLock)
+                    {
+                        if (_connectionString == null)
+                        {
+                            _connectionString = Configuration["ConnectionStrings:MySQLDBConnectionString"];
+
+                            bool.TryParse(Configuration["ConnectionStrings:Debug"], out bool debug);
+                            if (!debug)
+                            {
+                                //_connectionString = Crypto.ConnectionStringDecrypt(_connectionString);
+                            }
+                        }
+                    }
+                }
+
+                return _connectionString;
+            }
+        }
+
+        public static DbContextOptions GetOptions(IConfiguration configuration)
+        {
+            // get options for mysql
+            var provider = new ConnectionStringProvider(configuration);
+            var contextVal = MySQLDbContextOptionsExtensions.UseMySQL(new DbContextOptionsBuilder(), provider.ConnectionString);
+            var query = contextVal.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            return query.Options;
+        }
+    }
+}

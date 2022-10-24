@@ -1,0 +1,13 @@
+using Microsoft.Extensions.Configuration;
+using MohaTemplate.Data.EF;
+using MohaTemplate.Data.MySQL.Common;
+
+namespace MohaTemplate.Data.MySQL
+{
+  public class MySqlDbContext : EFDbContext
+    {
+        public MySqlDbContext(IConfiguration configuration) : base(configuration, ConnectionStringProvider.GetOptions(configuration))
+        {
+        }
+    }
+}

@@ -1,0 +1,30 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MohaTemplate.Core.Entities;
+using MohaTemplate.Core.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+
+namespace MohaTemplate.API.Controllers
+{
+    [Route("api/account")]
+    [ApiController]
+
+    public class AccountController : ControllerBase
+    {
+        private readonly IAccountService AccountService;
+        public AccountController(IAccountService accountService)
+        {
+            AccountService = accountService;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<Account>), StatusCodes.Status200OK)]
+
+        public  async Task<List<Account>> GetAll()
+        {
+            return await AccountService.GetAll(); 
+        }
+    }}
+    

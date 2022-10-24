@@ -1,0 +1,67 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MohaTemplate.Core.Entities
+{
+  public partial class Account
+    {
+        public int AccountId { get; set; }
+
+        public bool ShowRegistrationOption { get; set; }
+
+        public bool AutoRegisterUsers { get; set; }
+
+        public bool ShowRegisteredAppsOnly { get; set; }
+
+        public string RegistrationURL { get; set; }
+
+        public string GeneratedOtpMode { get; set; }
+
+        public string BackURL { get; set; }
+
+        public string SsoViewModeCode { get; set; }
+
+        public string IndustryCode { get; set; }
+
+        public string IndustryDetails { get; set; }
+
+        public string CompanySizeCode { get; set; }
+
+        public string Code { get; set; }
+
+        public string NotificationConfig { get; set; }
+
+        public bool BlockEnabled { get; set; }
+
+        public int? BlockTriesDurationInMin { get; set; }
+
+        public int? BlockTriesCount { get; set; }
+
+        public int? BlockDurationInMin { get; set; }
+
+        public bool ExpiryEnabled { get; set; }
+
+        public string PasswordPolicies { get; set; }
+
+        public bool RecaptchaEnabled { get; set; }
+
+        public bool LinkingEnabled { get; set; }
+
+        public bool NotificationEnabled { get; set; }
+
+        public bool ExtraClaimMappingEnabled { get; set; }
+
+        public bool PasswordPoliciesEnabled { get; set; }
+
+        public bool MultiFactorAuthEnabled { get; set; }
+
+        public int? DefaultIdentityProviderId { get; set; }
+
+        // Mapping
+        public string AccountCode { get => Code; set => Code = value; }
+
+        public virtual string ImageUrl { get; set; }
+
+    }
+}

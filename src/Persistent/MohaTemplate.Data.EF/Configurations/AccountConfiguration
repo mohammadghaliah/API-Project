@@ -1,0 +1,62 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MohaTemplate.Core.Entities;
+
+namespace MohaTemplate.Data.EF.Configurations
+{
+  public class AccountConfiguration : IEntityTypeConfiguration<Account>
+    {
+      public void Configure(EntityTypeBuilder<Account> builder)
+        {
+            builder.HasKey(e => e.AccountId);
+
+            builder.ToTable("ACCOUNTS");
+
+            builder.HasIndex(e => e.Code).HasName("UQ_ACCOUNTS_CODE").IsUnique();
+
+            builder.Property(e => e.AccountId).HasColumnName("ACCOUNT_ID");
+            builder.Property(e => e.AutoRegisterUsers).HasColumnName("AUTO_REGISTER_USERS");
+            builder.Property(e => e.Code).IsRequired().HasColumnName("CODE").HasMaxLength(100);
+            builder.Property(e => e.RegistrationURL).HasColumnName("REGISTRATION_URL").HasMaxLength(1000);
+            builder.Property(e => e.BackURL).HasColumnName("BACK_URL").HasMaxLength(1000);
+            builder.Property(e => e.SsoViewModeCode).HasColumnName("SSO_VIEW_MODE_CODE").HasMaxLength(100);
+            builder.Property(e => e.ShowRegisteredAppsOnly).HasColumnName("SHOW_REGISTERED_APPS_ONLY");
+            builder.Property(e => e.ShowRegistrationOption).IsRequired().HasColumnName("SHOW_REGISTRATION_OPTION");
+            builder.Property(e => e.NotificationConfig).HasColumnName("NOTIFICATION_CONFIG");
+            builder.Property(e => e.BlockEnabled).HasColumnName("BLOCK_ENABLED");
+            builder.Property(e => e.BlockTriesDurationInMin).HasColumnName("BLOCK_TRIES_DURATION_IN_MIN");
+            builder.Property(e => e.BlockTriesCount).HasColumnName("BLOCK_TRIES_COUNT");
+            builder.Property(e => e.BlockDurationInMin).HasColumnName("BLOCK_DURATION_IN_MIN");
+            //builder.Property(e => e.CreateStamp).IsRequired().HasColumnName("CREATE_STAMP").HasColumnType("datetime");
+            //builder.Property(e => e.CreatedBy).HasColumnName("CREATED_BY");
+            //builder.Property(e => e.UpdateStamp).HasColumnName("UPDATE_STAMP").HasColumnType("datetime");
+            //builder.Property(e => e.UpdatedBy).HasColumnName("UPDATED_BY");
+            //builder.Property(e => e.IsActive).HasColumnName("IS_ACTIVE");
+            //builder.Property(e => e.IsDeleted).HasColumnName("IS_DELETED");
+            //builder.Property(e => e.IsSystem).HasColumnName("IS_SYSTEM");
+            builder.Property(e => e.ExpiryEnabled).IsRequired().HasColumnName("EXPIRY_ENABLED");
+            builder.Property(e => e.PasswordPolicies).HasColumnName("PASSWORD_POLICIES").HasMaxLength(1000);
+            builder.Property(e => e.GeneratedOtpMode).HasColumnName("GENERATED_OTP_MODE").HasMaxLength(50);
+            builder.Property(e => e.RecaptchaEnabled).IsRequired().HasColumnName("RECAPTCHA_ENABLED");
+            builder.Property(e => e.LinkingEnabled).HasColumnName("LINKING_ENABLED");
+            builder.Property(e => e.NotificationEnabled).HasColumnName("NOTIFICATION_ENABLED");
+            builder.Property(e => e.ExtraClaimMappingEnabled).HasColumnName("EXTRA_CLAIM_MAPPING_ENABLED");
+            builder.Property(e => e.PasswordPoliciesEnabled).HasColumnName("PASSWORD_POLICIES_ENABLED");
+            builder.Property(e => e.MultiFactorAuthEnabled).HasColumnName("MULTI_FACTOR_AUTH_ENABLED");
+            builder.Property(e => e.DefaultIdentityProviderId).HasColumnName("DEFAULT_IDENTITY_PROVIDER_ID");
+            builder.Property(e => e.IndustryCode).HasColumnName("INDUSTRY_CODE");
+            builder.Property(e => e.IndustryDetails).HasColumnName("INDUSTRY_DETAILS");
+            builder.Property(e => e.CompanySizeCode).HasColumnName("COMPANY_SIZE_CODE");
+
+            //builder.Ignore(e => e.Id);
+            //builder.Ignore(e => e.Apps);
+            builder.Ignore(e => e.ImageUrl);
+            //builder.Ignore(e => e.Translation);
+            //builder.Ignore(e => e.Translations);
+            builder.Ignore(e => e.AccountCode);
+            //builder.Ignore(e => e.AppWhiteLabels);
+            //builder.Ignore(e => e.AccountExtraClaimsMapping);
+            //builder.Ignore(e => e.ApiSecretKeys);
+        }
+    }
+}

@@ -1,0 +1,19 @@
+using System.Data;
+
+namespace MohaTemplate.Core
+{
+    public interface IDbContext
+    {
+        IDbConnection Connection { get; }
+
+        IDbTransaction Transaction { get; }
+
+        IDbTransaction BeginTransaction(IsolationLevel isolationLevel);
+
+        IDbTransaction BeginTransaction();
+
+        void Dispose();
+
+        void Save();
+    }
+}

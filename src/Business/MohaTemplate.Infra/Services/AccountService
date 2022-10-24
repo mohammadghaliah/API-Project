@@ -1,0 +1,26 @@
+using MohaTemplate.Core.Entities;
+using MohaTemplate.Core.Repositories;
+using MohaTemplate.Core.Services;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MohaTemplate.Infra.Services
+{
+  public class AccountService : IAccountService
+    {
+      private readonly IAccountRepository AccountRepository;
+      public AccountService(IAccountRepository accountRepository)
+        {
+            AccountRepository = accountRepository;
+        }
+
+        public async Task<List<Account>> GetAll()
+        {
+            List<Account> accounts = await AccountRepository.GetAll();
+
+            return accounts;
+        }
+    }
+}

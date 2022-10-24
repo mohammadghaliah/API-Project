@@ -1,0 +1,17 @@
+{
+  "ConnectionStrings": {
+    "OracleDBConnectionString": "Data Source= (DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.34.188)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = aj))); User Id=SECURITY_LOCAL;Password=SECURITY_LOCAL;Connection Lifetime=10800; min pool size=20; max pool size=50;",
+    "MySQLDBConnectionString": "Server=172.16.19.44;Port=3306;Database=Security_Local;Uid=Security_Local_user;Pwd=Security_Local_user;",
+    "SqlDBConnectionString": "Data Source=events-dev;Initial Catalog=Security_Local;Persist Security Info=True;User ID=sa;Password=Pocketaps!2",
+    "Debug": "true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}
+a
